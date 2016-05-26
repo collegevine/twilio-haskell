@@ -61,18 +61,18 @@ instance FromJSON IncomingPhoneNumber where
     <*>  v .: "phone_number"
     <*>  v .: "api_version"
     <*>  v .: "voice_caller_id_lookup"
-    <*> (v .: "voice_url" <&> getNonEmptyText)
+    <*> (v .: "voice_url")
     <*>  v .: "voice_method"
-    <*> (v .: "voice_fallback_url" <&> (join . fmap getNonEmptyText))
+    <*> (v .: "voice_fallback_url")
     <*>  v .: "voice_fallback_method"
-    <*> (v .: "status_callback"  <&> getNonEmptyText)
+    <*> (v .: "status_callback")
     <*>  v .: "status_callback_method"
-    <*> (v .: "voice_application_sid" <&> (join . fmap parseSID . getNonEmptyText))
-    <*> (v .: "sms_url"          <&> getNonEmptyText)
+    <*> (v .: "voice_application_sid" <&> (join . fmap parseSID))
+    <*> (v .: "sms_url")
     <*>  v .: "sms_method"
-    <*> (v .: "sms_fallback_url" <&> getNonEmptyText)
+    <*> (v .: "sms_fallback_url")
     <*>  v .: "sms_fallback_method"
-    <*> (v .: "sms_application_sid" <&> (join . fmap parseSID . getNonEmptyText))
+    <*> (v .: "sms_application_sid" <&> (join . fmap parseSID))
     <*> (v .: "capabilities" >>= parseJSON)
     <*>  v .: "address_requirements"
     <*> (v .: "uri"              <&> parseRelativeReference
