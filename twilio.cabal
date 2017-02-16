@@ -16,6 +16,7 @@ source-repository head
   location: https://github.com/markandrus/twilio-haskell
 
 library
+  hs-source-dirs:      src
   ghc-options:         -Wall -fno-warn-name-shadowing -O2
   exposed-modules:     Control.Monad.Twilio,
                        Twilio,
@@ -56,7 +57,7 @@ library
                        Twilio.Queues,
                        Twilio.Recording,
                        Twilio.Recordings,
-                       Twilio.Tokens
+                       Twilio.Tokens,
                        Twilio.Transcription,
                        Twilio.Transcriptions,
                        Twilio.Types,
@@ -72,7 +73,6 @@ library
                        Twilio.UsageRecords,
                        Twilio.UsageTrigger,
                        Twilio.UsageTriggers
-  hs-source-dirs:      src
   build-depends:       aeson >=0.9,
                        base ==4.*,
                        bifunctors >= 5,
@@ -81,9 +81,9 @@ library
                        errors >= 2.0.0,
                        exceptions ==0.*,
                        free ==4.*,
-                       http-client ==0.4.*,
-                       http-client-tls ==0.2.*,
-                       http-types ==0.*,
+                       http-client >=0.4.0,
+                       http-client-tls >=0.2.0,
+                       http-types >=0.1.0,
                        mtl ==2.*,
                        network-uri >=2.6,
                        old-locale ==1.0.*,

@@ -92,10 +92,7 @@ makeTwilioDELETERequest' :: Monad m
                          -> TwilioT m Request
 makeTwilioDELETERequest' resourceURL =
   makeTwilioRequest' resourceURL <&> (\req -> req {
-    method = "DELETE",
-    checkStatus = \status responseHeaders cookieJar -> case status of
-      Status 204 _ -> Nothing
-      _            -> Just . SomeException $ StatusCodeException status responseHeaders cookieJar
+    method = "DELETE"
   })
 
 makeTwilioDELETERequest :: Monad m
@@ -103,8 +100,5 @@ makeTwilioDELETERequest :: Monad m
                         -> TwilioT m Request
 makeTwilioDELETERequest resourceURL =
   makeTwilioRequest resourceURL <&> (\req -> req {
-    method = "DELETE",
-    checkStatus = \status responseHeaders cookieJar -> case status of
-      Status 204 _ -> Nothing
-      _            -> Just . SomeException $ StatusCodeException status responseHeaders cookieJar
+    method = "DELETE"
   })
