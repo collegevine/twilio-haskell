@@ -6,6 +6,7 @@ module Twilio.IncomingPhoneNumbers
   ( -- * Resource
     IncomingPhoneNumbers(..)
   , PostIncomingPhoneNumber(..)
+  , VoiceMethod(..)
   , Twilio.IncomingPhoneNumbers.get
   , Twilio.IncomingPhoneNumbers.post
   ) where
