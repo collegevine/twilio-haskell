@@ -8,13 +8,15 @@ module Twilio.IncomingPhoneNumbers
   , PostIncomingPhoneNumber(..)
   , Twilio.IncomingPhoneNumbers.get
   , Twilio.IncomingPhoneNumbers.post
+  , VoiceMethod(..)
   ) where
 
 import Control.Applicative
 import Control.Monad.Catch
 import Data.Aeson
-import Data.Text (Text)
+import Data.Text (Text, pack)
 import Data.Text.Encoding
+import Data.Maybe (catMaybes)
 
 import Control.Monad.Twilio
 import Twilio.IncomingPhoneNumber
@@ -22,12 +24,16 @@ import Twilio.Internal.Request
 import Twilio.Internal.Resource as Resource
 import Twilio.Types
 
+data VoiceMethod = Get | Post deriving Show
+
 {- Resource -}
 
 data PostIncomingPhoneNumber = PostIncomingPhoneNumber {
     pipnPhoneNumber :: Text,
     pipnFriendlyName :: Maybe Text,
-    pipnSmsApplicationSID :: ApplicationSID
+    pipnSmsApplicationSID :: ApplicationSID,
+    pipnVoiceMethod :: VoiceMethod,
+    pipnVoiceUrl :: Maybe Text
 }
 
 data IncomingPhoneNumbers = IncomingPhoneNumbers
@@ -47,7 +53,12 @@ instance Post1 PostIncomingPhoneNumber () where
     makeTwilioPOSTRequest "/IncomingPhoneNumbers.json"
       ([ ("PhoneNumber", encodeUtf8 $ pipnPhoneNumber n)
       , ("SmsApplicationSid", encodeUtf8 . getSID $ pipnSmsApplicationSID n)
-      ] ++ maybe [] (:[]) (("FriendlyName",) . encodeUtf8 <$> pipnFriendlyName n))
+      , ("VoiceMethod", encodeUtf8 . pack . show $ pipnVoiceMethod n)
+      ] ++ catMaybes [
+            ("FriendlyName",) . encodeUtf8 <$> pipnFriendlyName n,
+            ("VoiceUrl",) . encodeUtf8 <$> pipnVoiceUrl n
+            ]
+      )
 
 instance Get0 IncomingPhoneNumbers where
   get0 = request parseJSONFromResponse =<< makeTwilioRequest
